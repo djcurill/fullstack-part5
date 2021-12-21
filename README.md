@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# YouBlog
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
+
+Simple React application that stores all your favorite blogs. This site uses a node js
+backend to communicate with a MongoDB instance. React router is used to facilitate
+navigation between different views. All blogs posts work with JWT authentication so that a
+user must be signed up to post, and cannot edit / delete blogs that are not their own.
 
 ## Available Scripts
 
