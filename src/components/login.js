@@ -9,23 +9,31 @@ const NameField = () => {
   );
 };
 
-const Login = ({ login = true }) => {
+const Login = (props) => {
   return (
-    <form>
-      {!login && <NameField></NameField>}
+    <form onSubmit={props.handleSubmit}>
+      {!props.login && <NameField></NameField>}
 
       <div className="form__field">
         <label className="form__label">Username</label>
-        <input type="text" />
+        <input
+          type="text"
+          required
+          onChange={(e) => props.updateUsername(e.target.value)}
+        />
       </div>
 
       <div className="form__field">
         <label className="form__label">Password</label>
-        <input type="password" />
+        <input
+          type="password"
+          required
+          onChange={(e) => props.updatePassword(e.target.value)}
+        />
       </div>
 
       <button type="submit" className="center">
-        {login ? 'Login' : 'Sign Up'}
+        {props.login ? 'Login' : 'Sign Up'}
       </button>
     </form>
   );
