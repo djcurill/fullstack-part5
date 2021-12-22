@@ -1,8 +1,15 @@
-import logo from './logo.svg';
+import 'normalize.css';
 import './App.css';
+import NavBar from './components/navbar';
+import Login from './components/login';
 
 function App() {
-  return <h1>Hello World</h1>;
+  return (
+    <>
+      <NavBar></NavBar>
+      <Login></Login>
+    </>
+  );
 }
 
 export default App;
