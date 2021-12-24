@@ -26,11 +26,23 @@ function App() {
       setPassword('');
       setUsername('');
       setLoggedIn(true);
-      setBlogs(await blogService.getBlogs());
     } catch (exception) {
       console.error(exception);
     }
   };
+
+  useEffect(() => {
+    if (loggedIn) {
+      blogService
+        .getBlogs()
+        .then((blogs) => {
+          setBlogs(blogs);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [loggedIn]);
 
   const handleSignUp = async (event) => {
     event.preventDefault();
@@ -43,7 +55,6 @@ function App() {
       setPassword('');
       setUsername('');
       setName('');
-      setBlogs(await blogService.getBlogs());
     } catch (exception) {
       console.error(exception);
     }
