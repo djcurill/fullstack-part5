@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import loginService from './services/login';
 import blogService from './services/blog';
 import userService from './services/user';
-import BlogList from './components/list';
+import BlogView from './views/blogs';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -60,9 +60,18 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+    setUser(null);
+    setLoggedIn(false);
+  };
+
   return (
     <>
-      <NavBar setIsLogin={setIsLogin}></NavBar>
+      <NavBar
+        loggedIn={loggedIn}
+        setIsLogin={setIsLogin}
+        handleLogout={handleLogout}
+      ></NavBar>
       {!loggedIn && (
         <Login
           login={isLogin}
@@ -72,7 +81,7 @@ function App() {
           handleSubmit={isLogin ? handleLogin : handleSignUp}
         ></Login>
       )}
-      {loggedIn && <BlogList blogs={blogs}></BlogList>}
+      {loggedIn && <BlogView blogs={blogs}></BlogView>}
     </>
   );
 }
