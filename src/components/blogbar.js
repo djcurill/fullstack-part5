@@ -3,7 +3,7 @@ import React from 'react';
 
 const BlogBar = () => {
   return (
-    <div>
+    <div className="blogbar">
       <button>All blogs</button>
       <button>New Blog</button>
     </div>
