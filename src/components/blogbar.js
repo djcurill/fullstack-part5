@@ -1,7 +1,7 @@
 // create a header for showing all blogs and adding a new blog
 import React from 'react';
 
-const BlogBar = (props) => {
+const BlogBar = React.forwardRef((props, ref) => {
   return (
     <>
       <div className="blogbar">
@@ -14,6 +14,6 @@ const BlogBar = (props) => {
       </div>
     </>
   );
-};
+});
 
 export default BlogBar;
