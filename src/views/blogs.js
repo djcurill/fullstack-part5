@@ -9,7 +9,7 @@ const BlogView = (props) => {
   return (
     <div className="blogview center">
       <BlogBar setShowModal={setShowModal}></BlogBar>
-      <BlogList blogs={props.blogs}></BlogList>
+      <BlogList blogs={props.blogs} updateBlog={props.updateBlog}></BlogList>
       {showModal && (
         <div className="modal">
           <BlogForm
