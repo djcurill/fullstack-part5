@@ -1,10 +1,10 @@
 import React from 'react';
 
-const NameField = () => {
+const NameField = (props) => {
   return (
     <div className="form__field">
       <label className="form__label">Name</label>
-      <input type="text" />
+      <input type="text" onChange={(e) => props.updateName(e.target.value)} />
     </div>
   );
 };
@@ -12,7 +12,7 @@ const NameField = () => {
 const Login = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
-      {!props.login && <NameField></NameField>}
+      {!props.login && <NameField updateName={props.updateName}></NameField>}
 
       <div className="form__field">
         <label className="form__label">Username</label>
