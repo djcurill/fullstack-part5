@@ -13,7 +13,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [isLogin, setIsLogin] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  //const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
 
@@ -25,14 +25,13 @@ function App() {
       setUser(user);
       setPassword('');
       setUsername('');
-      setLoggedIn(true);
     } catch (exception) {
       console.error(exception);
     }
   };
 
   useEffect(() => {
-    if (loggedIn) {
+    if (user) {
       blogService
         .getBlogs()
         .then((blogs) => {
@@ -42,7 +41,7 @@ function App() {
           console.error(err);
         });
     }
-  }, [loggedIn]);
+  }, [user]);
 
   const handleSignUp = async (event) => {
     event.preventDefault();
@@ -51,7 +50,6 @@ function App() {
       const userInfo = { username, name, password };
       const newUser = await userService.createUser(userInfo);
       setUser({ username: newUser.username, name: newUser.name });
-      setLoggedIn(true);
       setPassword('');
       setUsername('');
       setName('');
@@ -62,17 +60,16 @@ function App() {
 
   const handleLogout = () => {
     setUser(null);
-    setLoggedIn(false);
   };
 
   return (
     <>
       <NavBar
-        loggedIn={loggedIn}
+        user={user}
         setIsLogin={setIsLogin}
         handleLogout={handleLogout}
       ></NavBar>
-      {!loggedIn && (
+      {!user && (
         <Login
           login={isLogin}
           updateUsername={setUsername}
@@ -81,7 +78,7 @@ function App() {
           handleSubmit={isLogin ? handleLogin : handleSignUp}
         ></Login>
       )}
-      {loggedIn && (
+      {user && (
         <BlogView blogs={blogs} user={user} setBlogs={setBlogs}></BlogView>
       )}
     </>
