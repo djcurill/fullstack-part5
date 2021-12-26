@@ -1,4 +1,5 @@
 import React from 'react';
+import UserInfo from './userinfo';
 
 const loginButtons = (setIsLogin) => {
   return (
@@ -29,7 +30,8 @@ const NavBar = (props) => {
       <h1 className="logo">YouBlog</h1>
       <nav>
         <ul>
-          {!props.loggedIn
+          {props.user && <UserInfo user={props.user}></UserInfo>}
+          {!props.user
             ? loginButtons(props.setIsLogin)
             : logoutButton(props.handleLogout)}
         </ul>
