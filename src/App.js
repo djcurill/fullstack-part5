@@ -81,7 +81,9 @@ function App() {
           handleSubmit={isLogin ? handleLogin : handleSignUp}
         ></Login>
       )}
-      {loggedIn && <BlogView blogs={blogs}></BlogView>}
+      {loggedIn && (
+        <BlogView blogs={blogs} user={user} setBlogs={setBlogs}></BlogView>
+      )}
     </>
   );
 }

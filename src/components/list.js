@@ -1,11 +1,12 @@
 import React from 'react';
-const Blog = require('./blog');
+import Blog from './blog';
 
 const BlogList = ({ blogs }) => {
+  console.log(blogs);
   return (
     <div>
-      {blogs.map((blog) => (
-        <Blog blog={blog}></Blog>
+      {blogs.map((b) => (
+        <Blog key={b.id.toString()} blog={b}></Blog>
       ))}
     </div>
   );
