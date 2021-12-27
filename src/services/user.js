@@ -1,4 +1,5 @@
 const axios = require('axios');
+
 const baseUrl = '/api/users';
 
 const createUser = async (userInfo) => {

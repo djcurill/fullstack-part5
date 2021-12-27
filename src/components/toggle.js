@@ -1,14 +1,19 @@
+import propTypes from 'prop-types';
 import React, { useState } from 'react';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 
-const Toggleable = (props) => {
+const Toggleable = ({ children }) => {
+  Toggleable.propTypes = {
+    children: propTypes.arrayOf(propTypes.element),
+  };
   const [show, setShow] = useState(false);
 
   const buttonLabel = show ? <RiArrowUpSLine /> : <RiArrowDownSLine />;
   return (
     <div className="toggle-layout">
-      {show && props.children}
+      {show && children}
       <button
+        type="button"
         className="toggle-btn"
         onClick={() => {
           setShow(!show);

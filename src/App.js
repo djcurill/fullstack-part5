@@ -1,8 +1,8 @@
 import 'normalize.css';
 import './App.css';
+import { useState, useEffect } from 'react';
 import NavBar from './components/navbar';
 import Login from './components/login';
-import { useState, useEffect } from 'react';
 import loginService from './services/login';
 import blogService from './services/blog';
 import userService from './services/user';
@@ -17,7 +17,6 @@ function App() {
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
   const sendErrorToast = (message) => {
     setErrorMessage(message);
@@ -29,8 +28,8 @@ function App() {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const user = await loginService.login({ username, password });
-      setUser(user);
+      const loggedInUser = await loginService.login({ username, password });
+      setUser(loggedInUser);
       blogService.setToken(user.token);
       window.localStorage.setItem('youBlogUser', JSON.stringify(user));
       setPassword('');
@@ -43,9 +42,9 @@ function App() {
   useEffect(() => {
     const persistedUser = window.localStorage.getItem('youBlogUser');
     if (persistedUser) {
-      const user = JSON.parse(persistedUser);
-      setUser(user);
-      blogService.setToken(user.token);
+      const existingUser = JSON.parse(persistedUser);
+      setUser(existingUser);
+      blogService.setToken(existingUser.token);
     }
   }, []);
 
@@ -53,8 +52,8 @@ function App() {
     if (user) {
       blogService
         .getBlogs()
-        .then((blogs) => {
-          setBlogs(blogs);
+        .then((existingBlogs) => {
+          setBlogs(existingBlogs);
         })
         .catch((err) => {
           sendErrorToast('Service Unavailable: unable to retrieve blogs');
@@ -67,9 +66,9 @@ function App() {
     try {
       const userInfo = { username, name, password };
       await userService.createUser(userInfo);
-      const user = await loginService.login({ username, password });
+      const loggedInUser = await loginService.login({ username, password });
 
-      setUser(user);
+      setUser(loggedInUser);
       blogService.setToken(user.token);
       window.localStorage.setItem('youBlogUser', JSON.stringify(user));
 
@@ -96,9 +95,7 @@ function App() {
   const updateBlog = async (blog) => {
     try {
       const updatedBlog = await blogService.updateBlog(blog);
-      const allBlogs = blogs.map((b) => {
-        return b.id === updateBlog.id ? updatedBlog : b;
-      });
+      const allBlogs = blogs.map((b) => (b.id === updateBlog.id ? updatedBlog : b));
       setBlogs(allBlogs);
     } catch (exception) {
       sendErrorToast('An error occurred when sending like / dislike');
@@ -117,14 +114,8 @@ function App() {
 
   return (
     <>
-      <NavBar
-        user={user}
-        setIsLogin={setIsLogin}
-        handleLogout={handleLogout}
-      ></NavBar>
-      {errorMessage && (
-        <Notification message={errorMessage} type="error"></Notification>
-      )}
+      <NavBar user={user} setIsLogin={setIsLogin} handleLogout={handleLogout} />
+      {errorMessage && <Notification message={errorMessage} type="error" />}
       {!user && (
         <Login
           login={isLogin}
@@ -132,16 +123,9 @@ function App() {
           updatePassword={setPassword}
           updateName={setName}
           handleSubmit={isLogin ? handleLogin : handleSignUp}
-        ></Login>
+        />
       )}
-      {user && (
-        <BlogView
-          blogs={blogs}
-          addBlog={addBlog}
-          updateBlog={updateBlog}
-          deleteBlog={deleteBlog}
-        ></BlogView>
-      )}
+      {user && <BlogView blogs={blogs} addBlog={addBlog} updateBlog={updateBlog} deleteBlog={deleteBlog} />}
     </>
   );
 }

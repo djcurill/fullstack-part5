@@ -1,7 +1,12 @@
+import propTypes from 'prop-types';
 import React from 'react';
 
-const Notification = ({ message, type }) => {
-  const style = 'toast center ' + type;
+const Notification = ({ message = '', type }) => {
+  Notification.propTypes = {
+    message: propTypes.string,
+    type: propTypes.string,
+  };
+  const style = `toast center ${type}`;
   return (
     <div className={style}>
       <p>{message}</p>

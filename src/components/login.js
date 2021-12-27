@@ -1,39 +1,48 @@
+import propTypes from 'prop-types';
 import React from 'react';
 
-const NameField = (props) => {
+const NameField = ({ updateName }) => {
+  NameField.propTypes = {
+    updateName: propTypes.func.isRequired,
+  };
   return (
     <div className="form__field">
-      <label className="form__label">Name</label>
-      <input type="text" onChange={(e) => props.updateName(e.target.value)} />
+      <label className="form__label" htmlFor="name">
+        Name
+      </label>
+      <input type="text" id="name" onChange={(e) => updateName(e.target.value)} />
     </div>
   );
 };
 
-const Login = (props) => {
+const Login = ({ handleSubmit, updateName, updateUsername, updatePassword, login }) => {
+  Login.propTypes = {
+    handleSubmit: propTypes.func.isRequired,
+    updateName: propTypes.func.isRequired,
+    updateUsername: propTypes.func.isRequired,
+    updatePassword: propTypes.func.isRequired,
+    login: propTypes.bool.isRequired,
+  };
   return (
-    <form onSubmit={props.handleSubmit}>
-      {!props.login && <NameField updateName={props.updateName}></NameField>}
+    <form onSubmit={handleSubmit}>
+      {!login && <NameField updateName={updateName} />}
 
       <div className="form__field">
-        <label className="form__label">Username</label>
-        <input
-          type="text"
-          required
-          onChange={(e) => props.updateUsername(e.target.value)}
-        />
+        <label className="form__label" htmlFor="username">
+          Username
+        </label>
+        <input type="text" id="username" required onChange={(e) => updateUsername(e.target.value)} />
       </div>
 
       <div className="form__field">
-        <label className="form__label">Password</label>
-        <input
-          type="password"
-          required
-          onChange={(e) => props.updatePassword(e.target.value)}
-        />
+        <label className="form__label" htmlFor="password">
+          Password
+        </label>
+        <input type="password" required id="password" onChange={(e) => updatePassword(e.target.value)} />
       </div>
 
       <button type="submit" className="center">
-        {props.login ? 'Login' : 'Sign Up'}
+        {login ? 'Login' : 'Sign Up'}
       </button>
     </form>
   );

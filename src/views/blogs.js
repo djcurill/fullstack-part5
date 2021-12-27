@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
+import propTypes from 'prop-types';
 import BlogBar from '../components/blogbar';
 import BlogList from '../components/list';
 import BlogForm from '../components/blogform';
 
-const BlogView = (props) => {
+const BlogView = ({ blogs, addBlog, updateBlog, deleteBlog }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="blogview center">
-      <BlogBar setShowModal={setShowModal}></BlogBar>
-      <BlogList
-        blogs={props.blogs}
-        updateBlog={props.updateBlog}
-        deleteBlog={props.deleteBlog}
-      ></BlogList>
+      <BlogBar setShowModal={setShowModal} />
+      <BlogList blogs={blogs} updateBlog={updateBlog} deleteBlog={deleteBlog} />
       {showModal && (
         <div className="modal">
-          <BlogForm
-            setShowModal={setShowModal}
-            addBlog={props.addBlog}
-          ></BlogForm>
+          <BlogForm setShowModal={setShowModal} addBlog={addBlog} />
         </div>
       )}
     </div>
   );
+};
+
+BlogView.propTypes = {
+  blogs: propTypes.arrayOf(propTypes.object).isRequired,
+  addBlog: propTypes.func.isRequired,
+  updateBlog: propTypes.func.isRequired,
+  deleteBlog: propTypes.func.isRequired,
 };
 
 export default BlogView;
