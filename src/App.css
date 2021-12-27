@@ -111,13 +111,26 @@ form {
   font-weight: bold;
 }
 
-.card > ul {
+.toggle-layout {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+}
+
+.toggle-btn {
+  grid-column: -1;
+  margin-right: 20px;
+  margin-bottom: 5px;
+  height: 25px;
+}
+
+.blogdetails {
   margin: 0;
   padding: 0;
   list-style: none;
+  grid-column: 0;
 }
 
-.card > ul > li {
+.blogdetails > li {
   font-size: 11px;
   margin: 0;
   padding: 5px 20px;
@@ -147,7 +160,4 @@ form {
 
 .success {
   background-color: #64dd17;
-}
-
-.toast > p {
 }
