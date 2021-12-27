@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 
 const Toggleable = (props) => {
   const [show, setShow] = useState(false);
 
-  const buttonLabel = show ? 'Hide' : 'Show';
+  const buttonLabel = show ? <RiArrowUpSLine /> : <RiArrowDownSLine />;
   return (
     <div className="toggle-layout">
       {show && props.children}

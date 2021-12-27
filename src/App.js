@@ -89,6 +89,14 @@ function App() {
     setBlogs(allBlogs);
   };
 
+  const updateBlog = async (blog) => {
+    const updatedBlog = await blogService.updateBlog(blog);
+    const allBlogs = blogs.map((b) => {
+      return b.id === updateBlog.id ? updatedBlog : b;
+    });
+    setBlogs(allBlogs);
+  };
+
   return (
     <>
       <NavBar
@@ -108,7 +116,13 @@ function App() {
           handleSubmit={isLogin ? handleLogin : handleSignUp}
         ></Login>
       )}
-      {user && <BlogView blogs={blogs} addBlog={addBlog}></BlogView>}
+      {user && (
+        <BlogView
+          blogs={blogs}
+          addBlog={addBlog}
+          updateBlog={updateBlog}
+        ></BlogView>
+      )}
     </>
   );
 }
