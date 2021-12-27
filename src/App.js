@@ -66,9 +66,13 @@ function App() {
     event.preventDefault();
     try {
       const userInfo = { username, name, password };
-      const newUser = await userService.createUser(userInfo);
-      setUser(newUser);
-      blogService.setToken(newUser.token);
+      await userService.createUser(userInfo);
+      const user = await loginService.login({ username, password });
+
+      setUser(user);
+      blogService.setToken(user.token);
+      window.localStorage.setItem('youBlogUser', JSON.stringify(user));
+
       setPassword('');
       setUsername('');
       setName('');
@@ -90,11 +94,25 @@ function App() {
   };
 
   const updateBlog = async (blog) => {
-    const updatedBlog = await blogService.updateBlog(blog);
-    const allBlogs = blogs.map((b) => {
-      return b.id === updateBlog.id ? updatedBlog : b;
-    });
-    setBlogs(allBlogs);
+    try {
+      const updatedBlog = await blogService.updateBlog(blog);
+      const allBlogs = blogs.map((b) => {
+        return b.id === updateBlog.id ? updatedBlog : b;
+      });
+      setBlogs(allBlogs);
+    } catch (exception) {
+      sendErrorToast('An error occurred when sending like / dislike');
+    }
+  };
+
+  const deleteBlog = async (blogToDelete) => {
+    try {
+      await blogService.deleteBlog(blogToDelete);
+      const allBlogs = blogs.filter((blog) => blog.id !== blogToDelete.id);
+      setBlogs(allBlogs);
+    } catch (exception) {
+      sendErrorToast('Unable to delete blog');
+    }
   };
 
   return (
@@ -121,6 +139,7 @@ function App() {
           blogs={blogs}
           addBlog={addBlog}
           updateBlog={updateBlog}
+          deleteBlog={deleteBlog}
         ></BlogView>
       )}
     </>

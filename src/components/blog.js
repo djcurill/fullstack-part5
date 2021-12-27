@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Toggleable from './toggle';
 import { FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
+import { RiDeleteBinLine } from 'react-icons/ri';
 
 const BlogDetails = ({ blog }) => {
   return (
@@ -22,7 +23,7 @@ const BlogDetails = ({ blog }) => {
   );
 };
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, deleteBlog }) => {
   const addLike = () => {
     blog.likes += 1;
     updateBlog(blog);
@@ -38,11 +39,14 @@ const Blog = ({ blog, updateBlog }) => {
   return (
     <div className="card">
       <h1>{blog.title}</h1>
-      <button className="like-button" onClick={addLike}>
+      <button className="blog-header-btn" onClick={addLike}>
         <FaRegThumbsUp />
       </button>
-      <button className="like-button" onClick={addDislike}>
+      <button className="blog-header-btn" onClick={addDislike}>
         <FaRegThumbsDown />
+      </button>
+      <button className="blog-header-btn" onClick={() => deleteBlog(blog)}>
+        <RiDeleteBinLine></RiDeleteBinLine>
       </button>
       <Toggleable>
         <BlogDetails blog={blog} />
