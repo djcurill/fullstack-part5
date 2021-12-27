@@ -14,10 +14,7 @@ const BlogView = (props) => {
         <div className="modal">
           <BlogForm
             setShowModal={setShowModal}
-            setBlogs={props.setBlogs}
-            currentBlogs={props.blogs}
-            handleBlogSubmit={props.handleBlogSubmit}
-            user={props.user}
+            addBlog={props.addBlog}
           ></BlogForm>
         </div>
       )}

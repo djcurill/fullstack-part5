@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
-import blogService from '../services/blog';
 
 const BlogForm = (props) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
-  const handleBlogSubmit = async () => {
+  const handleBlogSubmit = () => {
     props.setShowModal(false);
 
-    console.log('before creating blog');
-    console.log(`user: ${JSON.stringify(props.user)}`);
     // create new blog
     const blog = { title, author, url };
-    const returnedBlog = await blogService.createBlog(blog, props.user.token);
-
-    // update blog state
-    const allBlogs = props.currentBlogs.concat(returnedBlog);
-    props.setBlogs(allBlogs);
+    props.addBlog(blog);
   };
 
   return (
@@ -53,7 +46,12 @@ const BlogForm = (props) => {
           }}
         ></input>
       </div>
-      <button type="submit">Create</button>
+      <div>
+        <button type="submit">Create</button>
+        <button type="button" onClick={() => props.setShowModal(false)}>
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

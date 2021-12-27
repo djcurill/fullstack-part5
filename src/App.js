@@ -7,28 +7,47 @@ import loginService from './services/login';
 import blogService from './services/blog';
 import userService from './services/user';
 import BlogView from './views/blogs';
+import Notification from './components/toast';
 
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [isLogin, setIsLogin] = useState(false);
-  //const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const sendErrorToast = (message) => {
+    setErrorMessage(message);
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 5000);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      console.log('running login');
       const user = await loginService.login({ username, password });
       setUser(user);
+      blogService.setToken(user.token);
+      window.localStorage.setItem('youBlogUser', JSON.stringify(user));
       setPassword('');
       setUsername('');
     } catch (exception) {
-      console.error(exception);
+      sendErrorToast('Error: Invalid username / password.');
     }
   };
+
+  useEffect(() => {
+    const persistedUser = window.localStorage.getItem('youBlogUser');
+    if (persistedUser) {
+      const user = JSON.parse(persistedUser);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -38,7 +57,7 @@ function App() {
           setBlogs(blogs);
         })
         .catch((err) => {
-          console.error(err);
+          sendErrorToast('Service Unavailable: unable to retrieve blogs');
         });
     }
   }, [user]);
@@ -46,20 +65,28 @@ function App() {
   const handleSignUp = async (event) => {
     event.preventDefault();
     try {
-      console.log('running sign up');
       const userInfo = { username, name, password };
       const newUser = await userService.createUser(userInfo);
-      setUser({ username: newUser.username, name: newUser.name });
+      setUser(newUser);
+      blogService.setToken(newUser.token);
       setPassword('');
       setUsername('');
       setName('');
     } catch (exception) {
-      console.error(exception);
+      sendErrorToast(exception.name);
     }
   };
 
   const handleLogout = () => {
     setUser(null);
+    blogService.setToken(null);
+    window.localStorage.removeItem('youBlogUser');
+  };
+
+  const addBlog = async (blog) => {
+    const returnedBlog = await blogService.createBlog(blog);
+    const allBlogs = blogs.concat(returnedBlog);
+    setBlogs(allBlogs);
   };
 
   return (
@@ -69,6 +96,9 @@ function App() {
         setIsLogin={setIsLogin}
         handleLogout={handleLogout}
       ></NavBar>
+      {errorMessage && (
+        <Notification message={errorMessage} type="error"></Notification>
+      )}
       {!user && (
         <Login
           login={isLogin}
@@ -78,9 +108,7 @@ function App() {
           handleSubmit={isLogin ? handleLogin : handleSignUp}
         ></Login>
       )}
-      {user && (
-        <BlogView blogs={blogs} user={user} setBlogs={setBlogs}></BlogView>
-      )}
+      {user && <BlogView blogs={blogs} addBlog={addBlog}></BlogView>}
     </>
   );
 }
