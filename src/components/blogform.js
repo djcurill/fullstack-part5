@@ -23,7 +23,7 @@ const BlogForm = ({ setShowModal, addBlog }) => {
     <form className="blogform" onSubmit={handleBlogSubmit}>
       <div className="form__field">
         <label htmlFor="blog-title">Title</label>
-        <input type="text" value={title} id="blog-title" required onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" value={title} id="blogtitle" required onChange={(e) => setTitle(e.target.value)} />
       </div>
       <div className="form__field">
         <label htmlFor="blog-author">Author</label>
