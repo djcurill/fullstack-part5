@@ -15,12 +15,12 @@ const BlogDetails = ({ blog }) => {
         {blog.author}
       </li>
       {blog.url && (
-        <li>
+        <li data-testid="urlInfo">
           <strong>URL: </strong>
           {blog.url}
         </li>
       )}
-      <li>
+      <li data-testid="numLikes">
         <strong>Likes:</strong> {blog.likes}
       </li>
     </ul>
@@ -49,17 +49,17 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
   return (
     <div className="card">
       <h1>{blog.title}</h1>
-      <button type="button" className="blog-header-btn" onClick={addLike}>
+      <button type="button" className="blog-header-btn like" onClick={addLike}>
         <FaRegThumbsUp />
       </button>
-      <button type="button" className="blog-header-btn" onClick={addDislike}>
+      <button type="button" className="blog-header-btn dislike" onClick={addDislike}>
         <FaRegThumbsDown />
       </button>
-      <button type="button" className="blog-header-btn" onClick={() => deleteBlog(blog)}>
+      <button type="button" className="blog-header-btn delete" onClick={() => deleteBlog(blog)}>
         <RiDeleteBinLine />
       </button>
       <Toggleable>
-        <BlogDetails blog={blog} />
+        <BlogDetails blog={blog} className="blogdetails" />
       </Toggleable>
     </div>
   );

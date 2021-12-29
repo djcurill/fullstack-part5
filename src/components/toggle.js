@@ -4,7 +4,7 @@ import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 
 const Toggleable = ({ children }) => {
   Toggleable.propTypes = {
-    children: propTypes.arrayOf(propTypes.element),
+    children: propTypes.oneOfType([propTypes.arrayOf(propTypes.element), propTypes.element]),
   };
   const [show, setShow] = useState(false);
 
@@ -15,6 +15,7 @@ const Toggleable = ({ children }) => {
       <button
         type="button"
         className="toggle-btn"
+        data-testid="toggle"
         onClick={() => {
           setShow(!show);
         }}
