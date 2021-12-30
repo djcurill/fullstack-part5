@@ -1,5 +1,4 @@
 const baseUrl = 'http://localhost:3000/';
-const { _, $ } = Cypress;
 
 describe('Blog app', () => {
   const existingUser = {
