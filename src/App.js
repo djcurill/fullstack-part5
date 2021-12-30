@@ -30,8 +30,8 @@ function App() {
     try {
       const loggedInUser = await loginService.login({ username, password });
       setUser(loggedInUser);
-      blogService.setToken(user.token);
-      window.localStorage.setItem('youBlogUser', JSON.stringify(user));
+      blogService.setToken(loggedInUser.token);
+      window.localStorage.setItem('youBlogUser', JSON.stringify(loggedInUser));
       setPassword('');
       setUsername('');
     } catch (exception) {

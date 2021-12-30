@@ -23,11 +23,25 @@ const BlogForm = ({ setShowModal, addBlog }) => {
     <form className="blogform" onSubmit={handleBlogSubmit}>
       <div className="form__field">
         <label htmlFor="blog-title">Title</label>
-        <input type="text" value={title} id="blogtitle" required onChange={(e) => setTitle(e.target.value)} />
+        <input
+          type="text"
+          value={title}
+          id="blogtitle"
+          required
+          onChange={(e) => setTitle(e.target.value)}
+          data-cy="title-input"
+        />
       </div>
       <div className="form__field">
         <label htmlFor="blog-author">Author</label>
-        <input type="text" value={author} id="blog-author" required onChange={(e) => setAuthor(e.target.value)} />
+        <input
+          type="text"
+          value={author}
+          id="blog-author"
+          required
+          onChange={(e) => setAuthor(e.target.value)}
+          data-cy="author-input"
+        />
       </div>
       <div className="form__field">
         <label htmlFor="blog-url">Url</label>
@@ -38,6 +52,7 @@ const BlogForm = ({ setShowModal, addBlog }) => {
           onChange={(e) => {
             setUrl(e.target.value);
           }}
+          data-cy="url-input"
         />
       </div>
       <div>

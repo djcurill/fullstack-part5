@@ -8,7 +8,7 @@ const Notification = ({ message = '', type }) => {
   };
   const style = `toast center ${type}`;
   return (
-    <div className={style}>
+    <div className={style} data-cy="toast-notification">
       <p>{message}</p>
     </div>
   );

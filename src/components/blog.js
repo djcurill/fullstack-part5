@@ -48,14 +48,14 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
 
   return (
     <div className="card">
-      <h1>{blog.title}</h1>
-      <button type="button" className="blog-header-btn like" onClick={addLike}>
+      <h1 data-cy="blog-header">{blog.title}</h1>
+      <button type="button" className="blog-header-btn like" onClick={addLike} data-cy="like-button">
         <FaRegThumbsUp />
       </button>
-      <button type="button" className="blog-header-btn dislike" onClick={addDislike}>
+      <button type="button" className="blog-header-btn dislike" onClick={addDislike} data-cy="dislike-button">
         <FaRegThumbsDown />
       </button>
-      <button type="button" className="blog-header-btn delete" onClick={() => deleteBlog(blog)}>
+      <button type="button" className="blog-header-btn delete" onClick={() => deleteBlog(blog)} data-cy="delete-button">
         <RiDeleteBinLine />
       </button>
       <Toggleable>
